@@ -53,6 +53,12 @@ All scenarios follow the same 5-challenge structure:
 
 ## Ready to Expand Your Knowledge?
 
+### We are on Tour! 
+
+<img width="4400" height="687" alt="banner" src="agentichacks.jpg" />
+
+Continue the journey in-person for a full day event where you can explore a more complex use cases. Find your stop on our [EMEA Agentic AI Hacks  – Microsoft Pulse](https://pulse.microsoft.com/en/build-ai-hacks-agentic-ai/).
+
 ### Go deeper with the docs
 
 - [What is Microsoft Foundry?](https://learn.microsoft.com/azure/foundry/what-is-foundry)
