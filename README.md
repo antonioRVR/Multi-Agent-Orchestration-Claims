@@ -1,33 +1,73 @@
-# Project
+<img width="4400" height="687" alt="banner" src="https://github.com/user-attachments/assets/132d5b26-c9d0-404f-b137-4ab3a5d12289" />
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+# Build and Scale AI Agents with Azure Hackathon
 
-As the maintainer of this project, please make a few updates:
+Welcome to the hands-on lab experience of the Microsoft Cloud & AI Frontier Week Hackathon — where ideas turn into real solutions.
+ 
+Throughout Frontier Week, you’ve explored how AI is transforming organizations. This is where you put that into practice.
+ 
+In this lab, you’ll build, monitor, evaluate, and orchestrate AI agents using the Microsoft Foundry SDK. You’ll follow a guided, scenario-based experience designed to help you move from concept to a working, enterprise-ready multi-agent system.
+ 
+By the end, you won’t just understand how agents work — you’ll have built one you can trace, evaluate, and deploy.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+All challenge instructions are also available at [microsoft.github.io/agenticaihack](https://microsoft.github.io/agenticaihack/).
 
-## Contributing
+## What You'll Learn
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit [Contributor License Agreements](https://cla.opensource.microsoft.com).
+This lab walks you through the full lifecycle of building production-ready AI agents with [Microsoft Foundry](https://learn.microsoft.com/azure/ai-foundry/):
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+- **Agent design** — Create purpose-built agents with system prompts, tools, and domain-specific data
+- **Observability** — Instrument agents with OpenTelemetry-based GenAI tracing via Application Insights
+- **Quality evaluation** — Run LLM-as-judge evaluations to systematically measure agent output quality
+- **Multi-agent orchestration** — Wire agents into automated workflows using the Python SDK and the Foundry portal
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This is a **code-first hackathon** — you'll write and run Python throughout. However, several challenges also have you interact with the **Microsoft Foundry portal** to deploy models, explore traces, review evaluations, and build workflows visually. Expect to move between your IDE and the portal regularly.
 
-## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
-trademarks or logos is subject to and must follow
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+## Choose Your Scenario
+
+All paths teach the same Foundry concepts — pick the one that resonates with you the most:
+
+| Scenario | Description | Start Here |
+|----------|-------------|------------|
+| 🏭 **Factory** | Detect machine anomalies and diagnose faults at TireForge Industries | [Factory Lab](./factory/) |
+| 📋 **Claims** | Triage incoming claims and recommend actions at ClaimSight Insurance | [Claims Lab](./claims/) |
+| 📞 **Call Center** | Classify call intents and advise resolutions at NovaTel Communications | [Call Center Lab](./callcenter/) |
+
+All scenarios follow the same 5-challenge structure:
+
+| # | Challenge | Duration | What You'll Learn |
+|---|-----------|----------|-------------------|
+| 0 | **Setup** | 20 min | Provision Microsoft Foundry, deploy a model, verify auth |
+| 1 | **Build Agents** | 35 min | Create two agents with tools and system prompts |
+| 2 | **Monitor** | 20 min | Enable GenAI tracing with Application Insights |
+| 3 | **Evaluate** | 25 min | Run LLM-as-judge evaluations against test datasets |
+| 4 | **Workflow** | 20 min | Orchestrate agents in a multi-step pipeline |
+
+## Prerequisites
+
+- **Azure subscription** with Contributor access
+- **Python 3.10+** installed locally (not needed for Codespaces)
+- **Azure CLI** (`az`) installed and logged in
+- ~20 minutes for infrastructure provisioning
+
+## Ready to Expand Your Knowledge?
+
+### Go deeper with the docs
+
+- [What is Microsoft Foundry?](https://learn.microsoft.com/azure/foundry/what-is-foundry)
+- [Foundry Agent Service overview](https://learn.microsoft.com/azure/foundry/agents/overview)
+- [Trace your agents with Microsoft Foundry](https://learn.microsoft.com/azure/foundry/observability/how-to/trace-agent-setup)
+- [Evaluate agentic workflows](https://learn.microsoft.com/azure/foundry/observability/how-to/evaluate-agent)
+- [azure-ai-projects SDK Reference](https://learn.microsoft.com/python/api/azure-ai-projects/)
+
+### Keep learning on Microsoft Learn
+
+- [Develop an AI agent with Microsoft Foundry Agent Service](https://learn.microsoft.com/training/modules/develop-ai-agent-azure/) — 55 min module
+- [Build agent-driven workflows using Microsoft Foundry](https://learn.microsoft.com/training/modules/build-agent-workflows-microsoft-foundry/) — 1 hr module
+- [Analyze and debug your generative AI app with tracing](https://learn.microsoft.com/training/modules/tracing-generative-ai-app/) — 1 hr module
+- [Evaluate generative AI performance in Microsoft Foundry portal](https://learn.microsoft.com/training/modules/evaluate-models-azure-ai-studio/) — 38 min module
+- [Monitor your generative AI application](https://learn.microsoft.com/training/modules/monitor-generative-ai-app/) — 1 hr module
+- [Develop generative AI apps in Azure](https://learn.microsoft.com/training/paths/develop-generative-ai-apps/) — learning path
+- [Monitor AI workloads on Azure](https://learn.microsoft.com/training/paths/monitor-ai-workloads-on-azure/) — learning path
+- [Operationalize AI responsibly with Azure AI Foundry](https://learn.microsoft.com/training/paths/operationalize-ai-responsibly/) — learning path
