@@ -11,7 +11,7 @@ Congratulations — you've built, instrumented, evaluated, and deployed a produc
 | 0 | **Setup** | Provisioned a Microsoft Foundry Resource, project, GPT model deployment, Log Analytics workspace, and Application Insights instance via a single `deploy.sh` script |
 | 1 | **Build Agents** | Created an **Anomaly Detection Agent** (reads live sensor telemetry — temperature, vibration, pressure — and identifies machines operating outside safe thresholds) and a **Fault Diagnosis Agent** (determines root cause and recommends maintenance actions per machine type) |
 | 2 | **Monitor** | Enabled OpenTelemetry GenAI tracing — every model call, tool invocation, and token count is captured as a distributed trace in Application Insights |
-| 3 | **Evaluate** | Ran systematic LLM-as-judge evaluations across the full sensor dataset, producing repeatable coherence and relevance scores you can version-track across prompt changes |
+| 3 | **Evaluate** | Ran systematic LLM-as-judge evaluations across the full sensor dataset, producing repeatable coherence and fluency scores you can version-track across prompt changes |
 | 4 | **Production Workflow** | Wired both agents into an orchestrated pipeline in the Foundry portal — a stable, testable endpoint with run history that plant operators can inspect |
 
 ### Skills you practiced

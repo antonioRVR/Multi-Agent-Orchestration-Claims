@@ -7,6 +7,11 @@ set -euo pipefail
 # Region: swedencentral
 # =============================================================================
 
+# --- Azure CLI extensions ----------------------------------------------------
+# Auto-install required CLI extensions non-interactively (no Y/n prompts).
+az config set extension.use_dynamic_install=yes_without_prompt --only-show-errors >/dev/null 2>&1 || true
+az extension add --name application-insights --only-show-errors >/dev/null 2>&1 || true
+
 # --- Configuration -----------------------------------------------------------
 SUFFIX="${SUFFIX:-$(openssl rand -hex 4)}"
 RESOURCE_GROUP="${RESOURCE_GROUP:-foundry-hackathon-rg-$SUFFIX}"
@@ -68,7 +73,7 @@ echo ">>> Creating Microsoft Foundry Account resource (AIServices)..."
 SUBSCRIPTION_ID=$(az account show --query id -o tsv)
 az rest \
     --method PUT \
-    --url "https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$FOUNDRY_RESOURCE_NAME?api-version=2024-10-01" \
+    --url "https://management.azure.com/subscriptions/$SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP/providers/Microsoft.CognitiveServices/accounts/$FOUNDRY_RESOURCE_NAME?api-version=2026-03-01" \
     --body "{\"kind\": \"AIServices\", \"sku\": {\"name\": \"S0\"}, \"location\": \"$LOCATION\", \"identity\": {\"type\": \"SystemAssigned\"}, \"properties\": {\"customSubDomainName\": \"$FOUNDRY_RESOURCE_NAME\", \"publicNetworkAccess\": \"Enabled\", \"allowProjectManagement\": true}}" \
     --output none || true
 

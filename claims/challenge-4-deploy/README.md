@@ -86,38 +86,23 @@ CLAIMSIGHT INSURANCE — CLAIMS PROCESSING REPORT
 
 1. Open the [Microsoft Foundry portal](https://ai.azure.com/nextgen)
 2. Select your project
-3. Left sidebar → **Build** → **Agents**
+3. Top bar → **Build** → **Agents**
 4. Confirm both agents appear:
    - `claims-triage-agent`
    - `claims-decision-agent`
 
-### Step 4: Test the Claims Triage Agent
+### Step 4: Build the workflow in the portal designer
 
-1. Click **claims-triage-agent** → **Playground**
-2. Send:
-   ```
-   Assess CLM-001 and CLM-003. What flags do you find?
-   ```
-3. The agent will call `assess_claim` for each claim and return a triage report
+1. Left sidebar → **Build** → **Workflows** → **+ New workflow**
+2. In the visual designer:
+   - **+ Add step** → Agent → `claims-triage-agent`
+     - Input: `Assess all claims and report any flags for completeness or fraud indicators.`
+   - **+ Add step** → Agent → `claims-decision-agent`
+     - Wire the output of the first step as input to this step
+3. Name it `claims-processing-workflow`
+4. Click **Save** then **Deploy**
 
-### Step 5: Test the Claims Decision Agent
-
-1. Click **claims-decision-agent** → **Playground**
-2. Send:
-   ```
-   CLM-001 is flagged: fraud_risk_score 82 (above max 50), damage_vs_estimate_match 52% (below min 70%). Recommend an action.
-   ```
-3. The agent should recommend denial or escalation with justification
-
-### Step 6: Build the workflow in the portal designer
-
-1. Left sidebar → **Build** → **Workflows** → **New workflow**
-2. Add two steps:
-   - Step 1: `claims-triage-agent` — "Assess all claims and report flags"
-   - Step 2: `claims-decision-agent` — "For each flagged claim, recommend an action"
-3. Deploy the workflow and note the agent name
-
-### Step 7: Test the workflow in the portal playground
+### Step 5: Test the workflow in the portal playground
 
 > **Why you must include the claims data in your message**
 >
@@ -127,7 +112,7 @@ CLAIMSIGHT INSURANCE — CLAIMS PROCESSING REPORT
 > never arrives. Paste the claims data directly into your message so the agents can
 > work without needing the tool.
 
-1. Open **claims-processing-workflow** → **Playground**
+1. Open **claims-processing-workflow** → **Preview**
 2. Paste the following message (data is pre-embedded so no tool calls are needed):
 
    ```
@@ -174,25 +159,41 @@ CLAIMSIGHT INSURANCE — CLAIMS PROCESSING REPORT
 3. Watch the steps execute in sequence — triage first, then decisions
 4. Review the approval/denial decisions with justifications
 
-### Step 8: Invoke the portal workflow from Python (streaming)
+### Step 6: Invoke the portal workflow from Python (streaming)
 
-Set `WORKFLOW_AGENT_NAME=claims-processing-workflow` in `.env`, then re-run:
+Add to your `.env`:
+```
+WORKFLOW_AGENT_NAME=claims-processing-workflow
+```
 
+Re-run the script — Part B activates automatically:
 ```bash
 python deploy.py
 ```
 
-The script will stream `workflow_action` events as the workflow executes each step:
-
+You will see the workflow run submitted and polled live in the terminal:
 ```
-[workflow] Starting step: claims-triage-agent
-[workflow] Completed step: claims-triage-agent
-[workflow] Starting step: claims-decision-agent
-[workflow] Completed step: claims-decision-agent
-<final report streamed here>
+============================================================
+INVOKING WORKFLOW (BACKGROUND POLL)
+============================================================
+
+=== Portal Workflow: claims-processing-workflow ===
+
+  Workflow steps:
+    1. claims-triage-agent    — triage claims for completeness and fraud indicators
+    2. claims-decision-agent  — make approval/denial decisions for triaged claims
+
+  Submitting workflow run (background)...
+  Response ID : resp_xxxxxxxx
+  Initial status: queued
+  [1] status=in_progress  tokens=0
+  [2] status=completed  tokens=1842
+
+Workflow output:
+<final consolidated report streamed here>
 ```
 
-### Step 9: View run history and traces
+### Step 7: View run history and traces
 
 1. Portal → your workflow → **Run history** tab
 2. Click the latest run to see the execution timeline — each step, duration, and output

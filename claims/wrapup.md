@@ -11,7 +11,7 @@ Congratulations — you've built, instrumented, evaluated, and deployed a produc
 | 0 | **Setup** | Provisioned a Microsoft Foundry Resource, project, GPT model deployment, Log Analytics workspace, and Application Insights instance via a single `deploy.sh` script |
 | 1 | **Build Agents** | Created a **Claims Triage Agent** (assesses document completeness, fraud risk, and policy coverage) and a **Claims Decision Agent** (recommends approve, fast-track, flag for investigation, or deny — with supporting rationale) |
 | 2 | **Monitor** | Enabled OpenTelemetry GenAI tracing — every model call, tool invocation, and token count is captured as a distributed trace in Application Insights |
-| 3 | **Evaluate** | Ran systematic LLM-as-judge evaluations across the full claims dataset, producing repeatable coherence and relevance scores you can version-track across prompt changes |
+| 3 | **Evaluate** | Ran systematic LLM-as-judge evaluations across the full claims dataset, producing repeatable coherence and fluency scores you can version-track across prompt changes |
 | 4 | **Production Workflow** | Wired both agents into an orchestrated pipeline in the Foundry portal — a stable, testable endpoint with run history that adjusters can inspect and audit |
 
 ### Skills you practiced

@@ -90,50 +90,23 @@ NOVATEL CALL CENTER — SHIFT REPORT
 
 1. Open the [Microsoft Foundry portal](https://ai.azure.com/nextgen)
 2. Select your project
-3. Left sidebar → **Build** → **Agents**
+3. Top bar → **Build** → **Agents**
 4. Confirm both agents appear:
    - `intent-classification-agent`
    - `resolution-advisor-agent`
 
-### Step 4: Test the Intent Classification Agent
+### Step 4: Build the workflow in the portal designer
 
-1. Click **intent-classification-agent** → **Playground**
-2. Send:
-   ```
-   Classify CALL-001 and CALL-007. What are their intents and priority levels?
-   ```
-3. Watch the `lookup_customer` tool call fire for each call
-4. Also try:
-   ```
-   Classify all calls: CALL-001 through CALL-007. Report intent, priority, sentiment, and retention risk.
-   ```
-
-### Step 5: Test the Resolution Advisor Agent
-
-1. Left sidebar → **Agents** → **resolution-advisor-agent** → **Playground**
-2. Send:
-   ```
-   Call CALL-007 from Emma Wilson (basic tier, 8 months):
-   - Intent: security_concern
-   - Priority: critical
-   - Sentiment: anxious
-   - Context: Received verification codes she didn't request, unfamiliar device on account.
-   Recommend resolution strategy and immediate actions.
-   ```
-3. Expected structure: **RECOMMENDED ACTION** / **SCRIPT SUGGESTION** / **ESCALATION** / **OFFERS** / **FOLLOW-UP**
-
-### Step 6: Build the workflow in the portal designer
-
-1. Left sidebar → **Build** → **Agents** → **Workflows** → **Create** → **Sequential**
+1. Left sidebar → **Build** → **Workflows** → **+ New workflow**
 2. In the visual designer:
    - **+ Add step** → Agent → `intent-classification-agent`
      - Input: `Classify all incoming calls and identify any critical or high-priority items.`
    - **+ Add step** → Agent → `resolution-advisor-agent`
      - Wire the output of the first step as input to this step
-3. Name it `call-center-triage-workflow`
+3. Name it `callcenter-triage-workflow`
 4. Click **Save** then **Deploy**
 
-### Step 7: Test the workflow in the portal playground
+### Step 5: Test the workflow in the portal playground
 
 > **Why you must include the call data in your message**
 >
@@ -177,11 +150,11 @@ NOVATEL CALL CENTER — SHIFT REPORT
 3. Watch the steps execute in sequence — classification first, then resolution advisory
 4. Review the final consolidated report
 
-### Step 8: Invoke the portal workflow from Python (streaming)
+### Step 6: Invoke the portal workflow from Python (streaming)
 
 Add to your `.env`:
 ```
-WORKFLOW_AGENT_NAME=call-center-triage-workflow
+WORKFLOW_AGENT_NAME=callcenter-triage-workflow
 ```
 
 Re-run the script — Part B activates automatically:
@@ -189,17 +162,29 @@ Re-run the script — Part B activates automatically:
 python deploy.py
 ```
 
-You will see each workflow step appear live in the terminal:
+You will see the workflow run submitted and polled live in the terminal:
 ```
-=== Invoking Portal Workflow: call-center-triage-workflow ===
-  --> Step: intent_classification
-      [completed] intent_classification
-  --> Step: resolution_advisory
-      [completed] resolution_advisory
-<final report streamed here>
+============================================================
+INVOKING WORKFLOW (BACKGROUND POLL)
+============================================================
+
+=== Portal Workflow: callcenter-triage-workflow ===
+
+  Workflow steps:
+    1. intent-classification-agent  — classify all calls by intent, priority, sentiment
+    2. resolution-advisor-agent     — recommend resolution for high-priority calls
+
+  Submitting workflow run (background)...
+  Response ID : resp_xxxxxxxx
+  Initial status: queued
+  [1] status=in_progress  tokens=0
+  [2] status=completed  tokens=1842
+
+Workflow output:
+<final consolidated report streamed here>
 ```
 
-### Step 9: View run history and traces
+### Step 7: View run history and traces
 
 1. Portal → your workflow → **Run history** tab
 2. Click the latest run to see the execution timeline — each step, duration, and output

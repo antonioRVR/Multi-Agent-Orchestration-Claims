@@ -85,39 +85,13 @@ TIREFORGE FACTORY HEALTH REPORT
 ### Step 3: Verify agents are deployed in the portal
 
 1. Open the [Microsoft Foundry portal](https://ai.azure.com/nextgen)
-2. Select your **tire-factory-project**
-3. Left sidebar → **Build** → **Agents**
+2. Select your project
+3. Top bar → **Build** → **Agents**
 4. Confirm both agents appear:
    - `anomaly-detection-agent`
    - `fault-diagnosis-agent`
 
-### Step 4: Test the Anomaly Detection Agent
-
-1. Click **anomaly-detection-agent** → **Playground**
-2. Send:
-   ```
-   Check machines MX-001 and CP-003 for anomalies.
-   ```
-3. Watch the `check_thresholds` tool call fire for each machine
-4. Also try:
-   ```
-   Check all machines: MX-001, EX-002, CP-003, CU-004, IS-005. Report every sensor out of spec.
-   ```
-
-### Step 5: Test the Fault Diagnosis Agent
-
-1. Left sidebar → **Agents** → **fault-diagnosis-agent** → **Playground**
-2. Send:
-   ```
-   Machine CP-003 has the following anomalies:
-  - temperature: 198.5 celsius (max 180, 10.3% above max)
-  - pressure: 18.2 bar (max 16.0, 13.8% above max)
-  - vibration: 7.3 mm/s (max 3.0, 143% above max)
-   Diagnose the fault and recommend maintenance actions.
-   ```
-3. Expected structure: **LIKELY CAUSE** / **MAINTENANCE ACTIONS** / **URGENCY**
-
-### Step 6: Build the workflow in the portal designer
+### Step 4: Build the workflow in the portal designer
 
 1. Left sidebar → **Build** → **Workflows** → **+ New workflow**
 2. In the visual designer:
@@ -128,7 +102,7 @@ TIREFORGE FACTORY HEALTH REPORT
 3. Name it `factory-health-workflow`
 4. Click **Save** then **Deploy**
 
-### Step 7: Test the workflow in the portal playground
+### Step 5: Test the workflow in the portal playground
 
 > **Why you must include the sensor data in your message**
 >
@@ -180,7 +154,7 @@ TIREFORGE FACTORY HEALTH REPORT
 3. Watch the steps execute in sequence — anomaly scan first, then fault diagnosis
 4. Review the final consolidated report
 
-### Step 8: Invoke the portal workflow from Python (streaming)
+### Step 6: Invoke the portal workflow from Python (streaming)
 
 Add to your `.env`:
 ```
@@ -192,17 +166,29 @@ Re-run the script — Part B activates automatically:
 python deploy.py
 ```
 
-You will see each workflow step appear live in the terminal:
+You will see the workflow run submitted and polled live in the terminal:
 ```
-=== Invoking Portal Workflow: factory-health-workflow ===
-  --> Step: anomaly_scan
-      [completed] anomaly_scan
-  --> Step: fault_diagnosis
-      [completed] fault_diagnosis
-<final report streamed here>
+============================================================
+INVOKING WORKFLOW (BACKGROUND POLL)
+============================================================
+
+=== Portal Workflow: factory-health-workflow ===
+
+  Workflow steps:
+    1. anomaly-detection-agent  — detect sensor anomalies across all machines
+    2. fault-diagnosis-agent    — diagnose root cause for anomalous machines
+
+  Submitting workflow run (background)...
+  Response ID : resp_xxxxxxxx
+  Initial status: queued
+  [1] status=in_progress  tokens=0
+  [2] status=completed  tokens=1842
+
+Workflow output:
+<final consolidated report streamed here>
 ```
 
-### Step 9: View run history and traces
+### Step 7: View run history and traces
 
 1. Portal → your workflow → **Run history** tab
 2. Click the latest run to see the execution timeline — each step, duration, and output
