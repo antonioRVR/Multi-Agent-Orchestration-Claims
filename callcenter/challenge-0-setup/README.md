@@ -68,16 +68,11 @@ az login
 
 ## Deploy Infrastructure
 
-From the **callcenter** folder, run one of the following depending on your terminal:
+From the **callcenter** folder, run the deploy script:
 
-| Terminal | Command |
-|----------|---------|
-| **Bash / macOS / Linux / Codespaces** | `bash challenge-0-setup/deploy.sh` |
-| **WSL** | `bash challenge-0-setup/deploy.sh` |
-| **Git Bash (Windows)** | `./challenge-0-setup/deploy.sh` |
-| **PowerShell (Windows)** | `wsl bash challenge-0-setup/deploy.sh` |
-
-> **Tip:** If you're on Windows without WSL, open the integrated VS Code terminal and switch to **Git Bash** using the dropdown next to the `+` button.
+```bash
+bash challenge-0-setup/deploy.sh
+```
 
 This will provision all resources **and** automatically write your `.env` file to the repository root as `.env`. The deployment will take a couple of minutes to complete.
 
