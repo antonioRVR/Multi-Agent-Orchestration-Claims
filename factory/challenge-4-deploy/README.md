@@ -86,38 +86,12 @@ TIREFORGE FACTORY HEALTH REPORT
 
 1. Open the [Microsoft Foundry portal](https://ai.azure.com/nextgen)
 2. Select your project
-3. Left sidebar → **Build** → **Agents**
+3. Top bar → **Build** → **Agents**
 4. Confirm both agents appear:
    - `anomaly-detection-agent`
    - `fault-diagnosis-agent`
 
-### Step 4: Test the Anomaly Detection Agent
-
-1. Click **anomaly-detection-agent** → **Playground**
-2. Send:
-   ```
-   Check machines MX-001 and CP-003 for anomalies.
-   ```
-3. Watch the `check_thresholds` tool call fire for each machine
-4. Also try:
-   ```
-   Check all machines: MX-001, EX-002, CP-003, CU-004, IS-005. Report every sensor out of spec.
-   ```
-
-### Step 5: Test the Fault Diagnosis Agent
-
-1. Left sidebar → **Agents** → **fault-diagnosis-agent** → **Playground**
-2. Send:
-   ```
-   Machine CP-003 has the following anomalies:
-  - temperature: 198.5 celsius (max 180, 10.3% above max)
-  - pressure: 18.2 bar (max 16.0, 13.8% above max)
-  - vibration: 7.3 mm/s (max 3.0, 143% above max)
-   Diagnose the fault and recommend maintenance actions.
-   ```
-3. Expected structure: **LIKELY CAUSE** / **MAINTENANCE ACTIONS** / **URGENCY**
-
-### Step 6: Build the workflow in the portal designer
+### Step 4: Build the workflow in the portal designer
 
 1. Left sidebar → **Build** → **Workflows** → **+ New workflow**
 2. In the visual designer:
@@ -128,7 +102,7 @@ TIREFORGE FACTORY HEALTH REPORT
 3. Name it `factory-health-workflow`
 4. Click **Save** then **Deploy**
 
-### Step 7: Test the workflow in the portal playground
+### Step 5: Test the workflow in the portal playground
 
 > **Why you must include the sensor data in your message**
 >
@@ -180,7 +154,7 @@ TIREFORGE FACTORY HEALTH REPORT
 3. Watch the steps execute in sequence — anomaly scan first, then fault diagnosis
 4. Review the final consolidated report
 
-### Step 8: Invoke the portal workflow from Python (streaming)
+### Step 6: Invoke the portal workflow from Python (streaming)
 
 Add to your `.env`:
 ```
@@ -214,7 +188,7 @@ Workflow output:
 <final consolidated report streamed here>
 ```
 
-### Step 9: View run history and traces
+### Step 7: View run history and traces
 
 1. Portal → your workflow → **Run history** tab
 2. Click the latest run to see the execution timeline — each step, duration, and output

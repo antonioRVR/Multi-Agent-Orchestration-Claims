@@ -71,7 +71,32 @@ Once the script finishes, your traces are live. Explore them in the Azure Portal
 
 ---
 
-### Azure Portal — Application Insights
+### Step 1: Microsoft Foundry Portal
+
+1. Go to [foundry.microsoft.com](https://ai.azure.com/nextgen) → open your project
+2. Click on the `claims-decision-agent` -> **Traces** 
+
+   - **Traces panel** — The **Conversations** tab lists every agent run as a row, showing the conversation ID, trace ID, response ID, status, creation time, duration, tokens in/out, estimated cost, evaluation results, and agent version. Use the search box and the **Status**, **Duration**, **Tokens**, and **Estimated Cost** filters (plus the date-range selector) to narrow results, switch to the **Responses** tab for individual model responses, or click **Create dataset** to turn these traces into an evaluation dataset.
+
+   ![traces](./images/traces.png)
+
+3. You’ll see a list of recent traces — click any row to open it
+
+   ![traces2](./images/traces2.png)
+
+4. Inside a trace you can see:
+   - Each **agent turn** as a span (input → output)
+   - **Tool calls** (`assess_claim`, etc.) as child spans with inputs/outputs
+   - **Token usage** and **latency** per span
+   - The full model prompt and completion if `OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=true`
+5. Use the **timeline view** to spot slow spans, and the **details panel** to inspect individual messages
+6. Click on the `claims-decision-agent` -> **Monitor** 
+
+   - **Monitor panel** — The **Overview** tab gives an at-a-glance health summary with cards for **Operational metrics** (estimated cost and total token usage), **Evaluations**, **Scheduled evaluations**, and **Scheduled red teaming run issues**. Below, the **Operational metrics** charts plot **Agent runs** (how often the agent was called) and **Runs and token metrics** (calls vs. tokens consumed) over the selected time range. Use the **Tools** tab, date filters, **Settings**, or **Open in Azure Monitor** for deeper analysis.
+
+   ![monitor2](./images/monitor2.png)
+
+### Step 2 - Application Insights
 
 1. Go to [portal.azure.com](https://portal.azure.com) → search for **Application Insights** → open `foundry-hack-insights-<suffix>`
 2. Left sidebar → **Investigate** → **Search**
@@ -91,24 +116,24 @@ You will see the **end-to-end transaction trace** showing:
    - Resource details (AKS cluster, region) where the agent executed
    - Any content filtering blockers that violated default Responsible AI standards
    - This view lets you inspect exactly what the agent "saw" and "reasoned" to understand any misclassifications or performance issues
-6. Open the included **App Insights Workbook** for a claim-first operations view:
-   1. In Application Insights, go to **Workbooks** → **+ New** → **Advanced Editor (</>)**.
-   2. Open [genai-monitoring-workbook.json](genai-monitoring-workbook.json) and copy its JSON.
-   3. Paste into the Advanced Editor, then click **Apply** and **Done Editing**.
-   4. Save it as **Claims GenAI Tracing Workbook**.
-   5. Use this workbook to track:
-      - Agent-level KPIs (invocations, latency, token usage, error count)
-      - Traces per claim (`CLM-001` through `CLM-005`)
-      - Decision and urgency distribution over recent traces
-      - Business context and claim type extraction
-      - Tool call health for `assess_claim`
-
-   If the workbook says **"The query returned no results"**, run `python monitor.py` again and refresh the workbook after 1-2 minutes. The workbook queries depend on recent traces that include claim IDs (`CLM-001`, `CLM-003`, `CLM-005`) and decision labels.
-
+6. In the left sidebar → **Investigate** → **Agents (preview)** to open the agent-centric operations dashboard.
+![alt text](./images/agentspane.png)
+   - Use the **Time range** and **Agent** filters at the top to scope the view, switch between the **Dashboard** and **All agents** tabs, or click **Explore in Grafana** for deeper analysis.
+   - **Agent Operational Metrics**:
+     - **Agent Runs** — total invocations broken down per agent (e.g., `claims-decision-agent`, `claims-triage-agent`, `tracing-test-agent`). Click **View Traces with Agent Runs** to jump to the underlying traces.
+     - **Gen AI Errors** — surfaces any traces with GenAI errors in the selected window; a green check means none were found.
+     - **Tool Calls** — a table of each tool (e.g., `multi_tool_use.parallel`) with its error count, average duration, and number of calls, so you can spot slow or failing tools.
+     - **Models** — per-model breakdown (e.g., `gpt-5.4-2026-03-05`, `gpt-5.4`) showing errors, average duration, and call counts.
+   - **Token Consumption**:
+     - **Token Consumption by Model** — total tokens consumed per model (e.g., ~22.1K for `gpt-5.4-2026-03-05`).
+     - **Input vs Output Tokens** — input versus output token totals over time (e.g., 17K input vs 5.1K output), useful for tracking cost drivers.
 ---
 
 ## Success Criteria
 
-- [ ] You can see at least one agent trace in Application Insights
-- [ ] The trace shows the full conversation flow (user → agent → tool → response)
+- [ ] GenAI tracing is enabled and `monitor.py` ran successfully
+- [ ] You can browse agent traces in the Foundry portal **Traces** view and open a conversation
+- [ ] You can read the **Monitor** panel (agent runs, token usage, estimated cost)
+- [ ] You can see at least one agent trace in Application Insights and open its end-to-end transaction trace
+- [ ] You can use the **Agents (preview)** dashboard to view agent runs, tool calls, models, and token consumption
 - [ ] You understand where to look when an agent misbehaves

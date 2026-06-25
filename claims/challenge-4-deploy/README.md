@@ -86,34 +86,12 @@ CLAIMSIGHT INSURANCE — CLAIMS PROCESSING REPORT
 
 1. Open the [Microsoft Foundry portal](https://ai.azure.com/nextgen)
 2. Select your project
-3. Left sidebar → **Build** → **Agents**
+3. Top bar → **Build** → **Agents**
 4. Confirm both agents appear:
    - `claims-triage-agent`
    - `claims-decision-agent`
 
-### Step 4: Test the Claims Triage Agent
-
-1. Click **claims-triage-agent** → **Playground**
-2. Send:
-   ```
-   Assess CLM-001 and CLM-003. What flags do you find?
-   ```
-3. Watch the `assess_claim` tool call fire for each claim
-4. Also try:
-   ```
-   Assess all claims: CLM-001, CLM-002, CLM-003, CLM-004, CLM-005. Report every metric out of spec.
-   ```
-
-### Step 5: Test the Claims Decision Agent
-
-1. Left sidebar → **Agents** → **claims-decision-agent** → **Playground**
-2. Send:
-   ```
-   CLM-001 is flagged: fraud_risk_score 82 (above max 50), damage_vs_estimate_match 52% (below min 70%). Recommend an action.
-   ```
-3. Expected structure: **RECOMMENDED ACTION** / **REASONING** / **NEXT STEPS** / **URGENCY**
-
-### Step 6: Build the workflow in the portal designer
+### Step 4: Build the workflow in the portal designer
 
 1. Left sidebar → **Build** → **Workflows** → **+ New workflow**
 2. In the visual designer:
@@ -124,7 +102,7 @@ CLAIMSIGHT INSURANCE — CLAIMS PROCESSING REPORT
 3. Name it `claims-processing-workflow`
 4. Click **Save** then **Deploy**
 
-### Step 7: Test the workflow in the portal playground
+### Step 5: Test the workflow in the portal playground
 
 > **Why you must include the claims data in your message**
 >
@@ -181,7 +159,7 @@ CLAIMSIGHT INSURANCE — CLAIMS PROCESSING REPORT
 3. Watch the steps execute in sequence — triage first, then decisions
 4. Review the approval/denial decisions with justifications
 
-### Step 8: Invoke the portal workflow from Python (streaming)
+### Step 6: Invoke the portal workflow from Python (streaming)
 
 Add to your `.env`:
 ```
@@ -215,7 +193,7 @@ Workflow output:
 <final consolidated report streamed here>
 ```
 
-### Step 9: View run history and traces
+### Step 7: View run history and traces
 
 1. Portal → your workflow → **Run history** tab
 2. Click the latest run to see the execution timeline — each step, duration, and output
