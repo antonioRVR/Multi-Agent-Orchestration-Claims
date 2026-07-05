@@ -4,7 +4,6 @@ import time
 from dotenv import load_dotenv
 from azure.identity import DefaultAzureCredential
 from azure.ai.projects import AIProjectClient
-from azure.ai.projects.models import Evaluation, Dataset
 
 # 1. Cargar configuración de Azure
 load_dotenv(dotenv_path="../../.env")
