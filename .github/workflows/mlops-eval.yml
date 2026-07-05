@@ -35,5 +35,5 @@ jobs:
           PROJECT_CONNECTION_STRING: ${{ secrets.PROJECT_CONNECTION_STRING }}
         run: |
           echo "Lanzando evaluación en Azure AI Foundry..."
-          cd claims/challenge-3-evaluate
+          cd claims/3-evaluate
           python evaluate.py
