@@ -1,0 +1,39 @@
+name: MLOps Evaluation Gate
+
+# El pipeline se lanzará automáticamente al hacer push a la rama main
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Permite lanzarlo a mano desde GitHub
+
+jobs:
+  evaluate-agents:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Clonar el repositorio
+        uses: actions/checkout@v3
+
+      - name: 🐍 Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Instalar Dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🔐 Autenticación en Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 🧪 Ejecutar Quality Gate (Evaluación de Agentes)
+        env:
+          PROJECT_CONNECTION_STRING: ${{ secrets.PROJECT_CONNECTION_STRING }}
+        run: |
+          echo "Lanzando evaluación en Azure AI Foundry..."
+          cd claims/challenge-3-evaluate
+          python evaluate.py
