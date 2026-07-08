@@ -14,10 +14,16 @@ if not connection_string:
     exit(1)
 
 print("🔗 Conectando a Azure AI Foundry...")
-client = AIProjectClient.from_connection_string(
-    credential=DefaultAzureCredential(),
-    conn_str=connection_string
-)
+if hasattr(AIProjectClient, "from_connection_string"):
+    client = AIProjectClient.from_connection_string(
+        credential=DefaultAzureCredential(),
+        conn_str=connection_string
+    )
+else:
+    client = AIProjectClient(
+        endpoint=connection_string,
+        credential=DefaultAzureCredential(),
+    )
 
 # 2. Ruta al archivo de datos de evaluación (asumiendo ejecución desde la misma carpeta)
 dataset_path = "eval_portal.jsonl"
